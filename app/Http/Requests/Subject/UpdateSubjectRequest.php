@@ -31,6 +31,6 @@ class UpdateSubjectRequest extends FormRequest
 
     public function passedValidation()
     {
-        $this->dto = new UpdateSubjectDto($this->validated());
+        //$this->dto = new UpdateSubjectDto($this->validated());
     }
 }
