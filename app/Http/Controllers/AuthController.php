@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -20,19 +21,20 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email','password');
         $validator = Validator::make($credentials,[
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|string'
         ]);
 
         if($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['errors' => $validator->messages()], 401);
         }
         try{
             if(! $token = JWTAuth::attempt($credentials)){
                 return response()->json([
                     'success' =>false,
-                    'errors' =>'Login credentials are invalid.',
-                ], 400);
+                    'errors' => "Login credentials are invalid"
+                    //'Login credentials are invalid.',
+                ], 401);
             }
         } catch(JWTException $e){
             return $credentials;
@@ -47,37 +49,13 @@ class AuthController extends Controller
             'success' => true,
             'token' =>$token,
         ]);
-        // data validation
-        // $request->validate([
-        //     "email" => "required|email",
-        //     "password" => "required"
-        // ]);
-
-        // JWTAuth
-        // $token = JWTAuth::attempt([
-        //     "email" => $request->email,
-        //     "password" => $request->password
-        // ]);
-
-        // if(!empty($token)){
-        //     return response()->json([
-        //         "user" =>auth()->user(),
-        //         "status" => true,
-        //         "message" => "User logged in succcessfully",
-        //         "token" => $token
-        //     ]);
-        // }
-
-        // return response()->json([
-        //     "status" => false,
-        //     "message" => "Invalid Username or Password"
-        // ]);
+        
     }
  
     public function register(Request $request)
     {
                // data validation
-               $request->validate([
+               $validator = Validator::make($request->all(),[
                 "firstname" => "required|string",
                 "lastname" => "required|string",
                 "phone" => "nullable|string",
@@ -87,6 +65,11 @@ class AuthController extends Controller
                 "school_id" => "required",
 
             ]);
+            if($validator->fails()){
+                return response()->json([
+                    'errors' => $validator->messages()
+                ],401);
+            }
     
             // User Model
            $user = new User ([
@@ -115,7 +98,7 @@ class AuthController extends Controller
     public function staff_register(Request $request)
     {
                // data validation
-               $request->validate([
+               $validator = Validator::make($request->all(),[
                 "firstname" => "required|string",
                 "lastname" => "required|string",
                 "phone" => "nullable|string",
@@ -123,8 +106,12 @@ class AuthController extends Controller
                 "password" => "required|string",
                 "school_id" => "required",
                 "is_admin" => "required",
-
             ]);
+            if($validator->fails()){
+                return response()->json([
+                    'errors' => $validator->errors()
+                ],401);
+            }
     
             // User Model
            $user = new User ([
@@ -155,12 +142,13 @@ class AuthController extends Controller
     public function profile(){
 
         $userdata = auth()->user();
+        return Response::json($userdata);
 
-        return response()->json([
-            "status" => true,
-            "message" => "Profile data",
-            "data" => $userdata
-        ]);
+        // return response()->json([
+        //     //"status" => true,
+        //     "message" => "Profile data",
+        //     "data" => $userdata
+        // ]);
     } 
 public function signin(Request $request)
 {

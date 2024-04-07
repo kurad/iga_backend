@@ -131,6 +131,12 @@ class TopicController extends Controller
             return Response::json($topics);
     }
 
+    public function findTeacherTopics(Request $request)
+    {
+        $topics = $this->topicService->findTeacherTopics($request);
+            return Response::json($topics);
+    }
+
     public function getTopic(int $id)
     {
         $topic = $this->topicService->getTopic($id);

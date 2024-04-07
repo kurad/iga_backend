@@ -3,15 +3,17 @@
 namespace App\Services;
 
 use Exception;
+use App\Models\Topic;
 use App\Models\Subject;
-use App\DTO\Subject\CreateSubjectDto;
-use App\DTO\Subject\UpdateSubjectDto;
+use Illuminate\Support\Facades\DB;
 use App\Exceptions\UknownException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\DTO\Subject\CreateSubjectDto;
+use App\DTO\Subject\UpdateSubjectDto;
 use App\Exceptions\ItemNotFoundException;
 use Illuminate\Database\Eloquent\Collection;
 use App\Exceptions\InvalidDataGivenException;
-use Illuminate\Support\Facades\Auth;
 
 class SubjectService extends AbstractService
 {
@@ -64,9 +66,20 @@ class SubjectService extends AbstractService
                         join('levels','levels.id','=','subjects.level_id')
                         ->select('levels.name','subjects.name as subjName', 'subjects.id')
                         ->get();
-        return $subjects;
+        return ($subjects);
     }
-
+    public function countTopicsBySubject(){
+        $topics = Topic::select(
+            'subjects.name as subjName','levels.name',
+            DB::raw("COUNT(*) as total_topics")
+            )
+            ->join('units','units.id','=','topics.unit_id')
+            ->join('subjects','subjects.id','=','units.subject_id')
+            ->join('levels','levels.id','=','subjects.level_id')
+            ->groupBy('levels.name','subjects.name')
+            ->get();
+            return $topics;
+    }
     public function teacher_subjects()
     {
         $subjects = Subject::

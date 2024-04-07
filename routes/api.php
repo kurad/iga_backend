@@ -2,6 +2,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardDataController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\TopicController;
@@ -17,11 +18,15 @@ use App\Http\Controllers\QuestionController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('signin', [AuthController::class, 'signin']);
 Route::get('/user', [AuthController::class, 'getUser'])->middleware('auth:api');
-Route::get('/province', [LevelController::class, 'provinces']);
 
 
 
 Route::prefix("/v1")->group(function () {
+    Route::get('/province', [LevelController::class, 'provinces']);
+    Route::get('/count/school', [DashboardDataController::class, 'countSchools']);
+    Route::get('/count/subject', [DashboardDataController::class, 'countSubjects']);
+    Route::get('/count/lessons', [DashboardDataController::class, 'countLessons']);
+    Route::get('/count/student', [DashboardDataController::class, 'countStudents']);
     Route::post('/register', [AuthController::class, 'register']);
 
     Route::get('/district', [LevelController::class, 'districts']);
@@ -33,6 +38,7 @@ Route::prefix("/v1")->group(function () {
     Route::get('/teacher/subjects', [TopicController::class, 'teacher_subjects']);
     Route::get('/dropdown/units', [TopicController::class, 'units']);
     Route::get('/unit/topics', [TopicController::class, 'findTopics']);
+    Route::get('/teacher/topics', [TopicController::class, 'findTeacherTopics'])->middleware('auth:api');
 
     Route::get("/schools", [SchoolController::class, "index"]);
     Route::get("/school-info", [SchoolController::class, "schoolDetails"]);
@@ -43,6 +49,7 @@ Route::prefix("/v1")->group(function () {
     Route::put("level/{id}", [LevelController::class, "update"]);
     Route::post("levels", [LevelController::class, "store"]);
 
+    Route::get("count/topics", [SubjectController::class, "countTopicsBySubject"]);
     
     });
 

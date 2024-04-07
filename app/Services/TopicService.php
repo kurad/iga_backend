@@ -197,6 +197,7 @@ class TopicService extends AbstractService
                         ->get();
         return ($subjects);
     }
+    
 
     public function teacher_subjects(Request $request)
     {
@@ -216,6 +217,17 @@ class TopicService extends AbstractService
     public function findTopics(Request $request)
     {
         $topics = DB::table('topics')->where('unit_id',$request->unit_id)->get();
+        return ($topics);
+    }
+    public function findTeacherTopics(Request $request)
+    {
+       $user = Auth::user()->id;
+        $topics = Topic::join('units','topics.unit_id','=','units.id')
+                        ->join('subjects','units.subject_id','=','subjects.id')
+                        ->join('users','subjects.user_id', 'users.id')
+                        ->where('users.id','=',$user)
+                        ->get();
+        //DB::table('topics')->where('unit_id',$request->unit_id)->get();
         return ($topics);
     }
     
