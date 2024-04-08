@@ -50,6 +50,7 @@ Route::prefix("/v1")->group(function () {
     Route::post("levels", [LevelController::class, "store"]);
 
     Route::get("count/topics", [SubjectController::class, "countTopicsBySubject"]);
+    Route::get("count/topics/{id}", [SubjectController::class, "TopicsBySubject"]);
     
     });
 
