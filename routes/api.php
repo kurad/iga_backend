@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardDataController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\TopicController;
@@ -51,6 +52,9 @@ Route::prefix("/v1")->group(function () {
 
     Route::get("count/topics", [SubjectController::class, "countTopicsBySubject"]);
     Route::get("count/topics/{id}", [SubjectController::class, "TopicsBySubject"]);
+    Route::get("/topic/{id}", [SubjectController::class, "getTopic"]);
+    Route::get("enrollments", [EnrollmentController::class, "index"]);
+    Route::post("enrollments", [EnrollmentController::class, "enroll"]);
     
     });
 
