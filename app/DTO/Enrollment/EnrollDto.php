@@ -4,7 +4,7 @@ namespace App\DTO\Enrollment;
 
 use App\DTO\InitializeDtoTrait;
 
-class EnrollmentDto
+class EnrollDto
 {
     use InitializeDtoTrait;
 

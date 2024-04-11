@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->unsigned()->index();
             $table->integer('topic_id')->unsigned()->index();
-            $table->timestamp('enrollment_date')->default(now());
+            $table->timestamps('enrollment_date');
             $table->timestamps();
             $table->softDeletes();
 

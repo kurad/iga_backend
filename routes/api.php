@@ -52,9 +52,10 @@ Route::prefix("/v1")->group(function () {
 
     Route::get("count/topics", [SubjectController::class, "countTopicsBySubject"]);
     Route::get("count/topics/{id}", [SubjectController::class, "TopicsBySubject"]);
-    Route::get("/topic/{id}", [SubjectController::class, "getTopic"]);
-    Route::get("enrollments", [EnrollmentController::class, "index"]);
-    Route::post("enrollments", [EnrollmentController::class, "enroll"]);
+    Route::get("student/topic/{id}", [SubjectController::class, "getTopic"]);
+    // Route::get("enrollments", [EnrollmentController::class, "index"]);
+    Route::post("enrollments", [EnrollmentController::class, "enroll"])->middleware('auth:api');
+    Route::get("enrollments", [EnrollmentController::class, "allEnrollments"])->middleware('auth:api');
     
     });
 
