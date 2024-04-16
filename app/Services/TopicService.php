@@ -226,6 +226,7 @@ class TopicService extends AbstractService
                         ->join('subjects','units.subject_id','=','subjects.id')
                         ->join('users','subjects.user_id', 'users.id')
                         ->where('users.id','=',$user)
+                        ->select('topics.id','topics.topic_title','topics.instructional_objectives')
                         ->get();
         //DB::table('topics')->where('unit_id',$request->unit_id)->get();
         return ($topics);
