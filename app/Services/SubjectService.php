@@ -70,13 +70,13 @@ class SubjectService extends AbstractService
     }
     public function countTopicsBySubject(){
         $topics = Topic::select(
-            'subjects.id','subjects.name as subjName','levels.name','units.unit_title',
+            'subjects.id','subjects.name as subjName','levels.name',
             DB::raw("COUNT(*) as total_topics")
             )
             ->join('units','units.id','=','topics.unit_id')
             ->join('subjects','subjects.id','=','units.subject_id')
             ->join('levels','levels.id','=','subjects.level_id')
-            ->groupBy('levels.name','subjects.name','subjects.id','units.unit_title')
+            ->groupBy('levels.name','subjects.name','subjects.id')
             ->get();
             return $topics;
     }
