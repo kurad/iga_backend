@@ -85,7 +85,7 @@ class SubjectService extends AbstractService
         $topics = Topic::join('units','units.id','=','topics.unit_id')
             ->join('subjects','subjects.id','=','units.subject_id')
             ->where('subjects.id',$id)
-            ->select('topics.id as topicId','topics.topic_title','topics.instructional_objectives','topics.topic_content','units.unit_title')
+            ->select('topics.id as topicId','topics.topic_title','topics.instructional_objectives','topics.topic_content','units.unit_title','subjects.name')
             ->get();
             return $topics;
     }
