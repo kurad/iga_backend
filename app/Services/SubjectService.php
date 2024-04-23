@@ -51,7 +51,7 @@ class SubjectService extends AbstractService
         $user = Auth::user()->id;
         return($user);
     }
-    public function getsubject(int $id): ?Subject
+    public function getsubject(int $id)
     {
         $subject = Subject::find($id);
         if (is_null($subject)) {
@@ -94,6 +94,7 @@ class SubjectService extends AbstractService
         $topic = Topic::find($id);
         return $topic;
     }
+    
     public function teacher_subjects()
     {
         $subjects = Subject::

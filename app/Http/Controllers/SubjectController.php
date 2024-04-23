@@ -42,6 +42,11 @@ class SubjectController extends Controller
         $topic = $this->subjectService->getTopic($id);
         return Response::json($topic);
     }
+    public function getsubject(int $id)
+    {
+        $subject = $this->subjectService->getsubject($id);
+        return Response::json($subject);
+    }
 
     public function user()
     {
