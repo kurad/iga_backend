@@ -61,9 +61,9 @@ class TopicService extends AbstractService
         return $topic;
     }
 
-    public function allTopics(): Collection
+    public function allTopics()
     {
-        $topics = Topic::with('unit')->get();
+        $topics = Topic::join('units','units.id','=','topics.unit_id')->get();
         return $topics;
     }
 

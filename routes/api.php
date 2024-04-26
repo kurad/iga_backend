@@ -53,7 +53,8 @@ Route::prefix("/v1")->group(function () {
     Route::get("count/topics", [SubjectController::class, "countTopicsBySubject"]);
     Route::get("count/topics/{id}", [SubjectController::class, "TopicsBySubject"]);
     Route::get("student/topic/{id}", [SubjectController::class, "getTopic"]);
-    Route::get("student/subject/{id}", [SubjectController::class, "getsubject"]);
+    Route::get("student/topic/{id}", [SubjectController::class, "getTopic"]);
+    Route::get("student/topics", [TopicController::class, "index"]);
     // Route::get("enrollments", [EnrollmentController::class, "index"]);
     Route::post("enrollments", [EnrollmentController::class, "enroll"])->middleware('auth:api');
     Route::get("enrollments", [EnrollmentController::class, "allEnrollments"])->middleware('auth:api');
