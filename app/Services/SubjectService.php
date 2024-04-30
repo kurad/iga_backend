@@ -101,7 +101,7 @@ class SubjectService extends AbstractService
                         join('levels','levels.id','=','subjects.level_id')
                         ->where('user_id',Auth::user()->id)
                         ->select('levels.name','subjects.name as subjName', 'subjects.id')
-                        ->get();
+                        ->paginate(10);
         return $subjects;
     }
 
