@@ -4,13 +4,14 @@ namespace App\Services;
 
 use Exception;
 use App\Models\Unit;
+use App\Models\Subject;
 use App\DTO\Unit\CreateUnitDto;
 use App\DTO\Unit\UpdateUnitDto;
 use App\Exceptions\UknownException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\ItemNotFoundException;
 use App\Exceptions\InvalidDataGivenException;
-use App\Models\Subject;
 
 class UnitService extends AbstractService
 {
@@ -63,6 +64,7 @@ class UnitService extends AbstractService
     public function allUnit()
     {
         $units = Unit::join('subjects','subjects.id','=','units.subject_id')
+                        ->where('subjects.user_id', Auth::user()->id)
                         ->select('units.unit_title','units.key_unit_competence', 'subjects.name')
                         ->get();
         return $units;

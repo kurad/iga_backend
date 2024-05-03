@@ -24,10 +24,7 @@ Route::get('/user', [AuthController::class, 'getUser'])->middleware('auth:api');
 
 Route::prefix("/v1")->group(function () {
     Route::get('/province', [LevelController::class, 'provinces']);
-    Route::get('/count/school', [DashboardDataController::class, 'countSchools']);
-    Route::get('/count/subject', [DashboardDataController::class, 'countSubjects']);
-    Route::get('/count/lessons', [DashboardDataController::class, 'countLessons']);
-    Route::get('/count/student', [DashboardDataController::class, 'countStudents']);
+    Route::get('/count/data', [DashboardDataController::class, 'countData']);
     Route::post('/register', [AuthController::class, 'register']);
 
     Route::get('/district', [LevelController::class, 'districts']);

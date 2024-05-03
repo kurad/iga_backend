@@ -19,23 +19,14 @@ class DashboardDataController extends Controller
 
         return Response::json($schools);
     }
-    public function countSubjects()
+    public function countData()
     {
-        $subjects = Subject::all()->count();
+        $data['schools'] = School::all()->count();
+        $data['subjects'] = Subject::all()->count();
+        $data['lessons'] = Topic::all()->count();
+        $data['students'] = User::where('is_admin',0)->count();
 
-        return Response::json($subjects);
-    }
-
-    public function countLessons()
-    {
-        $lessons = Topic::all()->count();
-
-        return Response::json($lessons);
-    }
-    public function countStudents()
-    {
-        $students = User::where('is_admin',0)->count();
-
-        return Response::json($students);
+        return Response::json($data);
+        
     }
 }
